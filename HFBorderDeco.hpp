@@ -8,16 +8,16 @@
 
 class CGradientValueData;
 
-class CFancyBorder : public IHyprWindowDecoration {
+class CHFrames : public IHyprWindowDecoration {
   public:
-    CFancyBorder(PHLWINDOW);
-    virtual ~CFancyBorder();
+    CHFrames(PHLWINDOW);
+    virtual ~CHFrames();
 
     virtual SDecorationPositioningInfo getPositioningInfo();
 
     virtual void                onPositioningReply(const SDecorationPositioningReply& reply);
 
-    virtual void                draw(PHLMONITOR, float const& a);
+    virtual void                draw(PHLMONITOR, const float& a);
 
     virtual eDecorationType     getDecorationType();
 
@@ -31,8 +31,12 @@ class CFancyBorder : public IHyprWindowDecoration {
 
     virtual std::string         getDisplayName();
 
-
   private:
+    void                        drawPass(PHLMONITOR, const float& a);
+
+    SP<HOOK_CALLBACK_FN>        pTickCb;
+    void                        onTick();
+
     SBoxExtents                 m_seExtents;
 
     PHLWINDOWREF                m_pWindow;
@@ -43,19 +47,22 @@ class CFancyBorder : public IHyprWindowDecoration {
     Vector2D                    m_vLastWindowPos;
     Vector2D                    m_vLastWindowSize;
 
-    SP<CTexture>                m_tBorderShape;
+    int                         m_dBorderType           = 0;
 
     double                      m_fLastThickness        = 0;
 
-    void                        renderBorderTexture();
+    void                        loadTextures();
+    void                        loadTexture(SP<CTexture> tex, const std::string rawpath);
 
     // from OpenGL.hpp
-    void                        renderBorder(CBox*, const CGradientValueData&, int round, int borderSize, float a = 1.0, int outerRound = -1 /* use round */);
-    void                        scissor(const CBox*, bool transform = true);
+    void                        renderBorder(Vector2D mpos, CBox&, const CHyprColor&, int round, int borderSize, float a = 1.0, int outerRound = -1 /* use round */);
+    void                        scissor(const CBox&, bool transform = true);
     void                        scissor(const pixman_box32*, bool transform = true);
     void                        blend(bool enabled);
     bool                        m_bEndFrame             = false;
     bool                        m_bBlend                = false;
     SCurrentRenderData          m_RenderData;
-    PHLWINDOWREF                m_pCurrentWindow;       // hack to get the current rendered window
+    bool                        m_bDamage               = false;
+
+    friend class CHFPassElement;
 };
