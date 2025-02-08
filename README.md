@@ -8,7 +8,7 @@
 
 <div align = left>
 
-Adds some additional border customizations options. When border_type is set to 'chamfer', it functions mostly like borders++; however, the borders corners are chamferred. When border_type is set to 'ninetile', and images are defined, the window borders will be image based. A normal map image corresponding to the texture image will add lighting that follows the mouse position. Use at your own risk. This plugin breaks whenever there is an API update, so disable when updating Hyprland.
+<p>Adds some additional border customizations options. When border_type is set to 'chamfer', it functions mostly like borders++; however, the borders corners are chamferred. When border_type is set to 'ninetile', and images are defined, the window borders will be image based. A normal map image corresponding to the texture image will add lighting that follows the mouse position. Use at your own risk. This plugin breaks whenever there is an API update, so disable when updating Hyprland.</p>
 
 Currently this works with:
 hyprland-git (v0.47)

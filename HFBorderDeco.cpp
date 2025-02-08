@@ -83,10 +83,12 @@ void CHFrames::loadTexture(SP<CTexture> tex, const std::string path) {
     //SP<CTexture> tex = m_tBorderShape;
     const auto CAIROSURFACE = cairo_image_surface_create_from_png (absolutePath(path, g_pConfigManager->getMainConfigPath()).c_str());
     if (cairo_surface_status(CAIROSURFACE) != CAIRO_STATUS_SUCCESS) {
+#ifdef DEBUG
         HyprlandAPI::addNotification(PHANDLE,
                                      "[hyprframes] Failed to load image: " +   
                                      absolutePath(path, g_pConfigManager->getMainConfigPath()),
                                      CHyprColor{1.0, 0.2, 0.2, 1.0}, 5000);
+#endif
         return;
     }
 
